@@ -1,0 +1,19 @@
+{
+  "name": "wallpaper-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "keywords": [],
+  "author": "Valoneu",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^31.1.0",
+    "electron-reloader": "^1.2.3"
+  },
+  "dependencies": {
+    "systeminformation": "^5.22.11"
+  }
+}

@@ -1,0 +1,141 @@
+:root {
+	--color-rosewater: #f5e0dc;
+	--color-flamingo: #f2cdcd;
+	--color-pink: #f5c2e7;
+	--color-mauve: #cba6f7;
+	--color-red: #f38ba8;
+	--color-maroon: #eba0ac;
+	--color-peach: #fab387;
+	--color-yellow: #f9e2af;
+	--color-green: #a6e3a1;
+	--color-teal: #94e2d5;
+	--color-sky: #89dceb;
+	--color-sapphire: #74c7ec;
+	--color-blue: #89b4fa;
+	--color-lavender: #b4befe;
+	--color-text: #cdd6f4;
+	--color-subtext1: #bac2de;
+	--color-subtext0: #a6adc8;
+	--color-overlay2: #9399b2;
+	--color-overlay1: #7f849c;
+	--color-overlay0: #6c7086;
+	--color-surface2: #585b70;
+	--color-surface1: #45475a;
+	--color-surface0: #313244;
+	--color-base: #1e1e2e;
+	--color-mantle: #181825;
+	--color-crust: #11111b;
+
+	--grid-padding: 1%;
+}
+* {
+	-webkit-font-smoothing: subpixel-antialiased;
+	margin: 0;
+	padding: 0;
+}
+body {
+	font-family: "Cascadia code";
+	font-size: 1.5rem;
+	background-color: var(--color-mantle);
+	color: var(--color-text);
+	padding: auto;
+	line-height: 1.6;
+	color: var(--color-blue);
+}
+
+body, html {
+	height: 100vh;
+}
+
+.grid {
+	display: grid;
+	grid-template-columns: repeat(5, 1fr);
+	grid-template-rows: repeat(4, 1fr);
+	height: 100vh;
+	padding: var(--grid-padding) calc(var(--grid-padding) * 3 / 2);
+	gap: 15px;
+	box-sizing: border-box;
+	grid-template-areas: 
+            "TIME CPU RAM SHRT NOTE"
+            "CLNDR GPU VRAM SHRT NOTE"
+        		"CLNDR DOWN UPLD SHRT NOTE"
+						"DISK DISK DISK DISK NOTE";
+}
+
+.grid-item {
+	border-radius: 10px;
+	background-color: var(--color-base);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.time {
+	grid-area: TIME;
+	flex-direction: row;
+	text-align: center;
+}
+.time div{
+	flex: auto;
+	flex-direction: column;
+	padding: 1%;
+}
+
+.time div p {
+	color: var(--color-yellow);
+}
+
+.callendar {
+	grid-area: CLNDR;
+}
+
+.calendar {
+	background-color: #fff;
+	padding: 10% 1%;
+	border-radius: 10px;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	text-align: center;
+
+}
+
+.today {
+	color: var(--color-green); /* Use CSS variable for today's color */
+}
+
+.cpu {
+	grid-area: CPU;
+}
+
+.ram {
+	grid-area: RAM;
+}
+
+.gpu {
+	grid-area: GPU;
+}
+
+.vram {
+	grid-area: VRAM;
+}
+
+.download {
+	grid-area: DOWN;
+}
+
+.upload {
+	grid-area: UPLD;
+}
+
+.shortcut {
+	grid-area: SHRT;
+}
+
+.note {
+	grid-area: NOTE;
+}
+
+.disk {
+	grid-area: DISK;
+}
+
+

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Basic Electron App</title>
+	<link rel="stylesheet" type="text/css" href="main.css" /> 
+</head>
+<body>
+	<div class="grid">
+			<div class="grid-item time">
+				<div id="time">
+					<div id="hours" class="time-part"></div>
+					<div id="minutes" class="time-part"></div>
+					<div id="seconds" class="time-part"></div>
+			</div>
+				<div>
+					<p id="year"> </p>
+					<p id="month"> </p>
+				</div>
+		  </div>
+
+			<div class="grid-item callendar">
+        <table>
+            <thead>
+                <tr>
+                    <th>Sun</th>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                </tr>
+            </thead>
+            <tbody id="calendar-body">
+            </tbody>
+        </table>
+		  </div>
+
+			<div class="grid-item cpu">
+			  <div id="cpu"> CPU </div>
+		  </div>
+			<div class="grid-item ram">
+			  <p id="ram"> RAM </p>
+		  </div>
+			<div class="grid-item gpu">
+			  <p id="gpu"> GPU </p>
+		  </div>
+			<div class="grid-item vram">
+			  <p id="vram"> VRAM </p>
+		  </div>
+			<div class="grid-item down">
+			  <p id="download"> DOWN </p>
+		  </div>
+			<div class="grid-item upload">
+			  <p id="upload"> UPLD </p>
+		  </div>
+			<div class="grid-item shortcut">
+			  <p> SHRT </p>
+		  </div>
+			<div class="grid-item note">
+			  <p> NOTE </p>
+		  </div>
+			<div class="grid-item disk">
+			  <p> DISK </p>
+		  </div>
+	</div>
+  <script src="script.js"></script>
+</body>
+</html>
