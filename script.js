@@ -1,5 +1,6 @@
 const si = require('systeminformation');
 const os = require('os');
+const { ipcRenderer } = require('electron');
 
 si.powerShellStart();
 
@@ -158,3 +159,54 @@ function updateAll() {
 
 updateAll(); // Initial update
 setInterval(updateAll, 1000); // Update every second
+
+
+// JavaScript code
+let disks = [];
+
+async function loadDisks() {
+		disks = await ipcRenderer.invoke('get-disks');
+		createDiskDivs();
+}
+
+function createDiskDivs() {
+		const containerDiv = document.getElementById('disk-containers');
+		disks.forEach(disk => {
+				const diskDiv = document.createElement('div');
+				diskDiv.id = `disk-${disk.replace(':', '')}`;
+				diskDiv.className = 'disk-container';
+				containerDiv.appendChild(diskDiv);
+		});
+}
+
+async function updateUsage() {
+		for (const disk of disks) {
+				const diskDiv = document.getElementById(`disk-${disk.replace(':', '')}`);
+				try {
+						const usage = await ipcRenderer.invoke('check-disk-usage', disk);
+						diskDiv.innerHTML = `${disk} ${usage.usedPercentage}%`;
+				} catch (error) {
+						diskDiv.innerHTML = `${disk}: Error - ${error.message}`;
+				}
+		}
+}
+
+loadDisks().then(() => {
+		updateUsage(); // Initial update
+		setInterval(updateUsage, 60000); // Update every 60 seconds
+});
+
+document.addEventListener('DOMContentLoaded', async () => {
+  const notesTextarea = document.getElementById('notes');
+  try {
+    const notes = await ipcRenderer.invoke('load-notes');
+    notesTextarea.value = notes.join('\n');
+  } catch (error) {
+    console.error('Failed to load notes:', error);
+  }
+
+  notesTextarea.addEventListener('input', () => {
+    const notesArray = notesTextarea.value.split('\n');
+    ipcRenderer.invoke('save-notes', notesArray);
+  });
+});

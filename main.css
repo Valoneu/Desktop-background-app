@@ -56,10 +56,10 @@ body, html {
 	gap: 15px;
 	box-sizing: border-box;
 	grid-template-areas: 
-            "TIME CPU RAM SHRT NOTE"
-            "CLNDR GPU VRAM SHRT NOTE"
-        		"CLNDR DOWN UPLD SHRT NOTE"
-						"DISK DISK DISK DISK NOTE";
+            "TIME CPU RAM NOTE SHRT"
+            "CLNDR GPU VRAM NOTE SHRT"
+        		"CLNDR DOWN UPLD NOTE SHRT"
+						"DISK DISK DISK DISK SHRT";
 }
 
 .grid-item {
@@ -68,6 +68,7 @@ body, html {
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	width: 100%;
 }
 
 .time {
@@ -138,4 +139,43 @@ body, html {
 	grid-area: DISK;
 }
 
+#disk-containers {
+	display: flex;
+	flex-direction: row;
+	width: 100%;
+	justify-content: space-around;
+}
 
+#note {
+	height: 95%;
+  width: 90%;
+}
+
+#notes {
+	height: 100%;
+  width: 100%;
+  padding: 10px;
+  box-sizing: border-box;
+	border-radius: 10px;
+	background-color: var(--color-mantle);
+	color: var(--color-blue);
+	font-size: 1.5rem;
+	border: none;
+	resize: none;
+}
+
+#notes::placeholder {
+  color: var(--color-blue);
+  font-size: 1.5rem;
+  text-align: center;
+	vertical-align: middle;
+}
+
+#shortcut-grid {
+	height: 95%;
+	width: 90%;
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(9, 1fr);
+	gap: 5px;
+}
