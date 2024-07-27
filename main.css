@@ -86,6 +86,10 @@ body, html {
 	color: var(--color-yellow);
 }
 
+.time-part {
+	font-size: 150%;
+}
+
 .callendar {
 	grid-area: CLNDR;
 }
@@ -164,9 +168,8 @@ body, html {
 	resize: none;
 }
 
-#notes::placeholder {
+.placeholder {
   color: var(--color-blue);
-  font-size: 1.5rem;
   text-align: center;
 	vertical-align: middle;
 }

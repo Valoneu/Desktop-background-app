@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 const fs = require('fs');
+const { exec } = require('child_process');
 
 try {
 	require('electron-reloader')(module);
@@ -80,4 +81,19 @@ ipcMain.handle('load-notes', async () => {
 
 ipcMain.handle('save-notes', async (event, notes) => {
   fs.writeFileSync(NOTES_FILE, JSON.stringify(notes));
+});
+
+ipcMain.handle('open-notes-file', async () => {
+  const notesFilePath = NOTES_FILE;
+  const command = process.platform === 'win32' 
+    ? `start "" "${notesFilePath}"`
+    : process.platform === 'darwin'
+      ? `open "${notesFilePath}"`
+      : `xdg-open "${notesFilePath}"`;
+      
+  exec(command, (error) => {
+    if (error) {
+      console.error('Failed to open the notes file:', error);
+    }
+  });
 });

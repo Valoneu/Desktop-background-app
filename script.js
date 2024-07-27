@@ -197,16 +197,30 @@ loadDisks().then(() => {
 });
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const notesTextarea = document.getElementById('notes');
+  const notesParagraph = document.getElementById('notes');
+
   try {
     const notes = await ipcRenderer.invoke('load-notes');
-    notesTextarea.value = notes.join('\n');
+    const notesContent = notes.join('\n').trim();
+
+    if (notesContent) {
+      notesParagraph.textContent = notesContent;
+      notesParagraph.classList.remove('placeholder');
+    } else {
+      notesParagraph.textContent = 'View notes...';
+      notesParagraph.classList.add('placeholder');
+    }
   } catch (error) {
     console.error('Failed to load notes:', error);
+    notesParagraph.textContent = 'View notes...';
+    notesParagraph.classList.add('placeholder');
   }
 
-  notesTextarea.addEventListener('input', () => {
-    const notesArray = notesTextarea.value.split('\n');
-    ipcRenderer.invoke('save-notes', notesArray);
+  notesParagraph.addEventListener('click', async () => {
+    try {
+      await ipcRenderer.invoke('open-notes-file');
+    } catch (error) {
+      console.error('Failed to open notes file:', error);
+    }
   });
 });

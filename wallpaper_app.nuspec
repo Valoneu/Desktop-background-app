@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>WallpaperApp</id>
+    <version>0.0.1</version>
+    <title>Wallpaper App</title>
+    <authors>Valoneu</authors>
+    <owners>Valoneu</owners>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Valoneu</description>
+    <releaseNotes>Initial release</releaseNotes>
+    <copyright>Copyright 2024</copyright>
+    <tags>wallpaper background app</tags>
+  </metadata>
+</package>
