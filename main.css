@@ -176,9 +176,17 @@ body, html {
 
 #shortcut-grid {
 	height: 95%;
-	width: 90%;
+	width: 45%;
 	display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: repeat(9, 1fr);
+	grid-template-columns: repeat(1, 1fr);
+	grid-template-rows: repeat(20, 1fr);
 	gap: 5px;
+	justify-content: center;
+	vertical-align: middle;
+	margin: 2.5px;
+}
+
+.title {
+	color: var(--color-red);
+	text-align: center;
 }
