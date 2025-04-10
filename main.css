@@ -1,192 +1,413 @@
+/* Catppuccin Macchiato Theme */
 :root {
-	--color-rosewater: #f5e0dc;
-	--color-flamingo: #f2cdcd;
-	--color-pink: #f5c2e7;
-	--color-mauve: #cba6f7;
-	--color-red: #f38ba8;
-	--color-maroon: #eba0ac;
-	--color-peach: #fab387;
-	--color-yellow: #f9e2af;
-	--color-green: #a6e3a1;
-	--color-teal: #94e2d5;
-	--color-sky: #89dceb;
-	--color-sapphire: #74c7ec;
-	--color-blue: #89b4fa;
-	--color-lavender: #b4befe;
-	--color-text: #cdd6f4;
-	--color-subtext1: #bac2de;
-	--color-subtext0: #a6adc8;
-	--color-overlay2: #9399b2;
-	--color-overlay1: #7f849c;
-	--color-overlay0: #6c7086;
-	--color-surface2: #585b70;
-	--color-surface1: #45475a;
-	--color-surface0: #313244;
-	--color-base: #1e1e2e;
-	--color-mantle: #181825;
-	--color-crust: #11111b;
+	--color-rosewater: #f4dbd6;
+	--color-flamingo: #f0c6c6;
+	--color-pink: #f5bde6;
+	--color-mauve: #c6a0f6;
+	--color-red: #ed8796;
+	--color-maroon: #ee99a0;
+	--color-peach: #f5a97f;
+	--color-yellow: #eed49f;
+	--color-green: #a6da95;
+	--color-teal: #8bd5ca;
+	--color-sky: #91d7e3;
+	--color-sapphire: #7dc4e4;
+	--color-blue: #8aadf4;
+	--color-lavender: #b7bdf8;
+	--color-text: #cad3f5;
+	--color-subtext1: #b8c0e0;
+	--color-subtext0: #a5adce;
+	--color-overlay2: #939ab7;
+	--color-overlay1: #8087a2;
+	--color-overlay0: #6e738d;
+	--color-surface2: #5b6078;
+	--color-surface1: #494d64;
+	--color-surface0: #363a4f;
+	--color-base: #24273a;      /* Primary background for items */
+	--color-mantle: #1e2030;    /* Secondary background (body) */
+	--color-crust: #181926;     /* Tertiary background (borders, etc.) */
 
-	--grid-padding: 1%;
+	--grid-gap: 15px;
+	--border-radius: 8px;
+	--padding-base: 15px;
+	--font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* More standard UI font */
+	--font-family-mono: 'Cascadia Code', Consolas, 'Courier New', monospace;
 }
+
 * {
-	-webkit-font-smoothing: subpixel-antialiased;
 	margin: 0;
 	padding: 0;
+	box-sizing: border-box;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
-body {
-	font-family: "Cascadia code";
-	font-size: 1.5rem;
+
+html, body {
+	height: 100%;
+	overflow: hidden; /* Prevent body scroll */
+	font-family: var(--font-family);
+	font-size: 15px; /* Base font size */
 	background-color: var(--color-mantle);
 	color: var(--color-text);
-	padding: auto;
-	line-height: 1.6;
-	color: var(--color-blue);
 }
 
-body, html {
-	height: 100vh;
+/* Optional: Custom title bar styling */
+.title-bar {
+	height: 40px; /* Adjust as needed */
+	background-color: var(--color-crust);
+	display: flex;
+	align-items: center;
+	justify-content: flex-end; /* Place buttons on the right */
+	padding: 0 10px;
+	-webkit-app-region: drag; /* Allows dragging the window */
 }
 
-.grid {
+.title-bar button {
+	-webkit-app-region: no-drag; /* Make buttons clickable */
+}
+
+.settings-btn {
+	background: none;
+	border: none;
+	color: var(--color-overlay1);
+	font-size: 1.2em;
+	cursor: pointer;
+	padding: 5px;
+	transition: color 0.2s ease;
+}
+.settings-btn:hover {
+	color: var(--color-sky);
+}
+
+
+.grid-container {
 	display: grid;
+	height: calc(100vh - 40px); /* Adjust based on title bar height */
 	grid-template-columns: repeat(5, 1fr);
-	grid-template-rows: repeat(4, 1fr);
-	height: 100vh;
-	padding: var(--grid-padding) calc(var(--grid-padding) * 3 / 2);
-	gap: 15px;
-	box-sizing: border-box;
-	grid-template-areas: 
-            "TIME CPU RAM NOTE SHRT"
-            "CLNDR GPU VRAM NOTE SHRT"
-        		"CLNDR DOWN UPLD NOTE SHRT"
-						"DISK DISK DISK DISK SHRT";
+	/* Adjusted rows for better vertical distribution */
+	grid-template-rows: 0.6fr 1fr 1fr 0.8fr;
+	gap: var(--grid-gap);
+	padding: var(--grid-gap);
+	grid-template-areas:
+			"TIME    CPU     RAM     NOTE    SHRT"
+			"CLNDR   GPU     VRAM    NOTE    SHRT"
+			"CLNDR   DOWN    UPLD    NOTE    SHRT"
+			"DISK    DISK    DISK    DISK    SHRT";
 }
 
 .grid-item {
-	border-radius: 10px;
 	background-color: var(--color-base);
+	border-radius: var(--border-radius);
+	padding: var(--padding-base);
 	display: flex;
-	justify-content: center;
+	flex-direction: column; /* Default to column layout */
+	justify-content: space-between; /* Distribute content vertically */
+	overflow: hidden; /* Prevent content spillover */
+	box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+/* --- Specific Grid Area Styling --- */
+
+.time { grid-area: TIME; flex-direction: row; align-items: center; justify-content: space-around; }
+.calendar-container { grid-area: CLNDR; padding: 5px; justify-content: center; } /* Less padding for table */
+.stat-item { grid-area: span 1 / span 1; justify-content: center; align-items: center; text-align: center; } /* Common stat style */
+.cpu-item { grid-area: CPU; }
+.ram-item { grid-area: RAM; }
+.gpu-item { grid-area: GPU; }
+.vram-item { grid-area: VRAM; }
+.down-item { grid-area: DOWN; }
+.upload-item { grid-area: UPLD; }
+.shortcut-container { grid-area: SHRT; flex-direction: row; justify-content: space-around; gap: var(--padding-base); }
+.note-container { grid-area: NOTE; }
+.disk-container { grid-area: DISK; }
+
+/* --- Time & Date --- */
+.time div { text-align: center; }
+#time-display { font-size: 1.8em; font-family: var(--font-family-mono); color: var(--color-blue); }
+#date-display p { margin: 2px 0; color: var(--color-yellow); font-size: 0.9em; }
+
+/* --- Calendar --- */
+.calendar-table {
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
+	font-size: 0.85em;
+	table-layout: fixed;
+}
+.calendar-table th {
+	color: var(--color-mauve);
+	padding-bottom: 8px;
+	font-weight: normal;
+}
+.calendar-table td {
+	padding: 5px 0;
+	color: var(--color-subtext0);
+}
+.calendar-table .today {
+	color: var(--color-green);
+	font-weight: bold;
+	background-color: var(--color-surface0);
+	border-radius: 50%;
+	display: inline-block;
+	width: 2em;
+	line-height: 2em;
+	height: 2em;
+	text-align: center;
+}
+.calendar-table .other-month { /* Style for days not in current month */
+	color: var(--color-surface1);
+}
+
+/* --- System Stats --- */
+.stat-label {
+	font-size: 0.9em;
+	color: var(--color-subtext1);
+	margin-bottom: 8px;
+	display: flex; /* Align icon and text */
 	align-items: center;
-	width: 100%;
-}
-
-.time {
-	grid-area: TIME;
-	flex-direction: row;
-	text-align: center;
-}
-.time div{
-	flex: auto;
-	flex-direction: column;
-	padding: 1%;
-}
-
-.time div p {
-	color: var(--color-yellow);
-}
-
-.time-part {
-	font-size: 150%;
-}
-
-.callendar {
-	grid-area: CLNDR;
-}
-
-.calendar {
-	background-color: #fff;
-	padding: 10% 1%;
-	border-radius: 10px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-	text-align: center;
-
-}
-
-.today {
-	color: var(--color-green); /* Use CSS variable for today's color */
-}
-
-.cpu {
-	grid-area: CPU;
-}
-
-.ram {
-	grid-area: RAM;
-}
-
-.gpu {
-	grid-area: GPU;
-}
-
-.vram {
-	grid-area: VRAM;
-}
-
-.download {
-	grid-area: DOWN;
-}
-
-.upload {
-	grid-area: UPLD;
-}
-
-.shortcut {
-	grid-area: SHRT;
-}
-
-.note {
-	grid-area: NOTE;
-}
-
-.disk {
-	grid-area: DISK;
-}
-
-#disk-containers {
-	display: flex;
-	flex-direction: row;
-	width: 100%;
-	justify-content: space-around;
-}
-
-#note {
-	height: 95%;
-  width: 90%;
-}
-
-#notes {
-	height: 100%;
-  width: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-	border-radius: 10px;
-	background-color: var(--color-mantle);
-	color: var(--color-blue);
-	font-size: 1.5rem;
-	border: none;
-	resize: none;
-}
-
-.placeholder {
-  color: var(--color-blue);
-  text-align: center;
-	vertical-align: middle;
-}
-
-#shortcut-grid {
-	height: 95%;
-	width: 45%;
-	display: grid;
-	grid-template-columns: repeat(1, 1fr);
-	grid-template-rows: repeat(20, 1fr);
 	gap: 5px;
-	justify-content: center;
-	vertical-align: middle;
-	margin: 2.5px;
+}
+.stat-value {
+	font-size: 1.1em;
+	font-family: var(--font-family-mono);
+	color: var(--color-lavender);
+	margin-top: 8px;
+}
+.progress-bar-container {
+	width: 80%;
+	height: 10px;
+	background-color: var(--color-surface0);
+	border-radius: 5px;
+	overflow: hidden;
+	margin: 5px 0;
+}
+.progress-bar {
+	height: 100%;
+	background-color: var(--color-blue);
+	width: 0%; /* Set by JS */
+	border-radius: 5px;
+	transition: width 0.5s ease-out;
+}
+/* Color coding for progress bars */
+.cpu-item .progress-bar { background-color: var(--color-green); }
+.ram-item .progress-bar { background-color: var(--color-yellow); }
+.gpu-item .progress-bar { background-color: var(--color-red); }
+.vram-item .progress-bar { background-color: var(--color-peach); }
+.progress-bar.high-usage { background-color: var(--color-yellow); } /* Generic high usage */
+.progress-bar.critical-usage { background-color: var(--color-red); } /* Generic critical usage */
+
+
+/* --- Shortcuts --- */
+.shortcut-container {
+	padding: var(--padding-base);
+}
+.shortcut-column {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	height: 100%; /* Fill the container height */
+	overflow-y: auto; /* Allow scrolling if list is long */
+	 background-color: var(--color-mantle); /* Slightly different background */
+	 border-radius: var(--border-radius);
+	 padding: 10px;
 }
 
-.title {
-	color: var(--color-red);
+/* Custom scrollbar for shortcut lists */
+.shortcut-column::-webkit-scrollbar {
+	width: 8px;
+}
+.shortcut-column::-webkit-scrollbar-track {
+	background: var(--color-surface0);
+	border-radius: 4px;
+}
+.shortcut-column::-webkit-scrollbar-thumb {
+	background-color: var(--color-overlay0);
+	border-radius: 4px;
+	border: 2px solid var(--color-surface0);
+}
+.shortcut-column::-webkit-scrollbar-thumb:hover {
+	background-color: var(--color-overlay1);
+}
+
+
+.shortcut-title {
+	color: var(--color-mauve);
+	font-size: 1em;
+	margin-bottom: 10px;
+	text-align: center;
+	border-bottom: 1px solid var(--color-surface0);
+	padding-bottom: 5px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+.shortcut-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	flex-grow: 1; /* Allow list to take available space */
+}
+.shortcut-item {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 8px 5px;
+	margin-bottom: 5px;
+	background-color: var(--color-surface0);
+	border-radius: 5px;
+	cursor: pointer;
+	transition: background-color 0.2s ease, color 0.2s ease;
+}
+.shortcut-item:hover {
+	background-color: var(--color-surface1);
+	color: var(--color-sky);
+}
+.shortcut-name {
+	flex-grow: 1;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	margin-right: 10px;
+	font-size: 0.9em;
+}
+.shortcut-icon {
+	margin-right: 8px;
+	color: var(--color-blue);
+	width: 1em; /* Ensure consistent icon width */
 	text-align: center;
 }
+.shortcut-item:hover .shortcut-icon {
+	color: var(--color-sky);
+}
+.remove-shortcut-btn, .add-shortcut-btn {
+	background: none;
+	border: none;
+	color: var(--color-overlay1);
+	cursor: pointer;
+	font-size: 0.9em;
+	padding: 2px 4px;
+	border-radius: 3px;
+	line-height: 1; /* Prevent button height issues */
+}
+.remove-shortcut-btn:hover {
+	color: var(--color-red);
+	background-color: var(--color-surface2);
+}
+.add-shortcut-btn {
+	font-size: 1em;
+	margin-left: 5px; /* Space from title */
+}
+.add-shortcut-btn:hover {
+	color: var(--color-green);
+	 background-color: var(--color-surface1);
+}
+
+/* --- Notes --- */
+.note-container {
+	padding: var(--padding-base);
+}
+.note-title {
+	font-size: 1em;
+	color: var(--color-teal);
+	margin-bottom: 10px;
+	text-align: center;
+	border-bottom: 1px solid var(--color-surface0);
+	padding-bottom: 5px;
+}
+
+/* *Style the textarea to look like the previous display area* */
+#notes-textarea {
+	background-color: var(--color-mantle);
+	border-radius: var(--border-radius);
+	padding: 10px;
+	height: calc(100% - 40px); /* Fill remaining space */
+	width: 100%; /* Fill width */
+	overflow-y: auto;
+	font-size: 0.95em;
+	line-height: 1.5;
+	color: var(--color-subtext1);
+	/* *Remove default textarea appearance* */
+	border: none;
+	outline: none; /* Remove focus outline */
+	resize: none; /* Disable user resizing */
+	font-family: var(--font-family); /* Inherit base font */
+}
+
+/* *Style the placeholder text* */
+#notes-textarea::placeholder {
+color: var(--color-overlay0);
+font-style: italic;
+}
+
+/* Remove the old .notes-content styles if they were conflicting */
+/*
+.notes-content {
+ cursor: pointer;  <-- No longer needed
+ white-space: pre-wrap; <-- Textarea handles this
+}
+.notes-content.placeholder {
+ <-- This class is no longer used
+}
+*/
+
+/* --- Disk Usage --- */
+.disk-container {
+	padding: var(--padding-base);
+}
+.disk-title {
+	font-size: 1em;
+	color: var(--color-sapphire);
+	margin-bottom: 15px;
+	text-align: center;
+	border-bottom: 1px solid var(--color-surface0);
+	padding-bottom: 5px;
+}
+#disk-usage-bars {
+	display: flex;
+	flex-wrap: wrap; /* Allow wrapping if many disks */
+	gap: 15px;
+	justify-content: space-around; /* Distribute disks */
+	align-items: center;
+	height: calc(100% - 40px); /* Fill remaining space */
+}
+.disk-item {
+	flex-basis: calc(25% - 15px); /* Roughly 4 disks per row, adjust as needed */
+	min-width: 150px; /* Minimum width for readability */
+	text-align: center;
+}
+.disk-label {
+	font-size: 0.9em;
+	color: var(--color-subtext1);
+	margin-bottom: 5px;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.disk-percentage {
+	font-size: 1em;
+	font-family: var(--font-family-mono);
+	color: var(--color-lavender);
+	margin-bottom: 5px;
+}
+.disk-details {
+	font-size: 0.8em;
+	color: var(--color-overlay1);
+}
+.disk-progress-container {
+	width: 100%;
+	height: 12px;
+	background-color: var(--color-surface0);
+	border-radius: 6px;
+	overflow: hidden;
+	margin: 8px 0;
+}
+.disk-progress-bar {
+	height: 100%;
+	background-color: var(--color-sapphire);
+	width: 0%; /* Set by JS */
+	border-radius: 6px;
+	transition: width 0.5s ease-out;
+}
+/* Color coding for disk usage (reusing generic classes) */
+.disk-progress-bar.high-usage { background-color: var(--color-yellow); }
+.disk-progress-bar.critical-usage { background-color: var(--color-red); }
