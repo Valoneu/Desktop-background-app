@@ -1,37 +1,6 @@
-/* Catppuccin Macchiato Theme */
 :root {
-	--color-rosewater: #f4dbd6;
-	--color-flamingo: #f0c6c6;
-	--color-pink: #f5bde6;
-	--color-mauve: #c6a0f6;
-	--color-red: #ed8796;
-	--color-maroon: #ee99a0;
-	--color-peach: #f5a97f;
-	--color-yellow: #eed49f;
-	--color-green: #a6da95;
-	--color-teal: #8bd5ca;
-	--color-sky: #91d7e3;
-	--color-sapphire: #7dc4e4;
-	--color-blue: #8aadf4;
-	--color-lavender: #b7bdf8;
-	--color-text: #cad3f5;
-	--color-subtext1: #b8c0e0;
-	--color-subtext0: #a5adce;
-	--color-overlay2: #939ab7;
-	--color-overlay1: #8087a2;
-	--color-overlay0: #6e738d;
-	--color-surface2: #5b6078;
-	--color-surface1: #494d64;
-	--color-surface0: #363a4f;
-	--color-base: #24273a;      /* Primary background for items */
-	--color-mantle: #1e2030;    /* Secondary background (body) */
-	--color-crust: #181926;     /* Tertiary background (borders, etc.) */
-
-	--grid-gap: 15px;
-	--border-radius: 8px;
-	--padding-base: 15px;
-	--font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* More standard UI font */
-	--font-family-mono: 'Cascadia Code', Consolas, 'Courier New', monospace;
+	--color-rosewater: #f4dbd6; --color-flamingo: #f0c6c6; --color-pink: #f5bde6; --color-mauve: #c6a0f6; --color-red: #ed8796; --color-maroon: #ee99a0; --color-peach: #f5a97f; --color-yellow: #eed49f; --color-green: #a6da95; --color-teal: #8bd5ca; --color-sky: #91d7e3; --color-sapphire: #7dc4e4; --color-blue: #8aadf4; --color-lavender: #b7bdf8; --color-text: #cad3f5; --color-subtext1: #b8c0e0; --color-subtext0: #a5adce; --color-overlay2: #939ab7; --color-overlay1: #8087a2; --color-overlay0: #6e738d; --color-surface2: #5b6078; --color-surface1: #494d64; --color-surface0: #363a4f; --color-base: #24273a; --color-mantle: #1e2030; --color-crust: #181926;
+	--grid-gap: 15px; --border-radius: 8px; --padding-base: 15px; --padding-large: 20px; --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; --font-family-mono: 'Cascadia Code', Consolas, 'Courier New', monospace;
 }
 
 * {
@@ -44,26 +13,25 @@
 
 html, body {
 	height: 100%;
-	overflow: hidden; /* Prevent body scroll */
+	overflow: hidden;
 	font-family: var(--font-family);
-	font-size: 15px; /* Base font size */
+	font-size: 15px;
 	background-color: var(--color-mantle);
 	color: var(--color-text);
 }
 
-/* Optional: Custom title bar styling */
 .title-bar {
-	height: 40px; /* Adjust as needed */
+	height: 40px;
 	background-color: var(--color-crust);
 	display: flex;
 	align-items: center;
-	justify-content: flex-end; /* Place buttons on the right */
+	justify-content: flex-end;
 	padding: 0 10px;
-	-webkit-app-region: drag; /* Allows dragging the window */
+	-webkit-app-region: drag;
 }
 
 .title-bar button {
-	-webkit-app-region: no-drag; /* Make buttons clickable */
+	-webkit-app-region: no-drag;
 }
 
 .settings-btn {
@@ -75,24 +43,25 @@ html, body {
 	padding: 5px;
 	transition: color 0.2s ease;
 }
+
 .settings-btn:hover {
 	color: var(--color-sky);
 }
 
-
 .grid-container {
 	display: grid;
-	height: calc(100vh - 40px); /* Adjust based on title bar height */
+	height: calc(100vh - 40px);
 	grid-template-columns: repeat(5, 1fr);
-	/* Adjusted rows for better vertical distribution */
-	grid-template-rows: 0.6fr 1fr 1fr 0.8fr;
+	grid-template-rows: repeat(4, 1fr); /* Changed for equal rows */
 	gap: var(--grid-gap);
 	padding: var(--grid-gap);
 	grid-template-areas:
-			"TIME    CPU     RAM     NOTE    SHRT"
-			"CLNDR   GPU     VRAM    NOTE    SHRT"
-			"CLNDR   DOWN    UPLD    NOTE    SHRT"
-			"DISK    DISK    DISK    DISK    SHRT";
+		"TIME    CPU     RAM     SHRT    NOTE"
+		"CLNDR   GPU     VRAM    SHRT    NOTE"
+		"CLNDR   DOWN    UPLD    SHRT    NOTE"
+		"DISK    DISK    DISK    DISK    NOTE";
+	align-items: stretch;
+	justify-items: stretch;
 }
 
 .grid-item {
@@ -100,168 +69,326 @@ html, body {
 	border-radius: var(--border-radius);
 	padding: var(--padding-base);
 	display: flex;
-	flex-direction: column; /* Default to column layout */
-	justify-content: space-between; /* Distribute content vertically */
-	overflow: hidden; /* Prevent content spillover */
+	flex-direction: column;
+	overflow: hidden;
 	box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
-/* --- Specific Grid Area Styling --- */
+.time {
+	grid-area: TIME;
+	flex-direction: row;
+	align-items: center;
+	justify-content: space-around;
+	gap: 20px;
+	padding: var(--padding-base) var(--padding-large);
+}
 
-.time { grid-area: TIME; flex-direction: row; align-items: center; justify-content: space-around; }
-.calendar-container { grid-area: CLNDR; padding: 5px; justify-content: center; } /* Less padding for table */
-.stat-item { grid-area: span 1 / span 1; justify-content: center; align-items: center; text-align: center; } /* Common stat style */
+.calendar-container {
+	grid-area: CLNDR;
+	padding: var(--padding-base);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.stat-item {
+	grid-area: span 1 / span 1;
+	justify-content: flex-start;
+}
+
 .cpu-item { grid-area: CPU; }
 .ram-item { grid-area: RAM; }
 .gpu-item { grid-area: GPU; }
 .vram-item { grid-area: VRAM; }
 .down-item { grid-area: DOWN; }
 .upload-item { grid-area: UPLD; }
-.shortcut-container { grid-area: SHRT; flex-direction: row; justify-content: space-around; gap: var(--padding-base); }
-.note-container { grid-area: NOTE; }
-.disk-container { grid-area: DISK; }
 
-/* --- Time & Date --- */
-.time div { text-align: center; }
-#time-display { font-size: 1.8em; font-family: var(--font-family-mono); color: var(--color-blue); }
-#date-display p { margin: 2px 0; color: var(--color-yellow); font-size: 0.9em; }
+.shortcut-container {
+	grid-area: SHRT;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	gap: 10px;
+	background-color: var(--color-mantle);
+	padding: var(--padding-base);
+}
 
-/* --- Calendar --- */
-.calendar-table {
-	width: 100%;
-	border-collapse: collapse;
+.note-container {
+	grid-area: NOTE;
+	padding: var(--padding-base);
+}
+
+.disk-container {
+	grid-area: DISK;
+}
+
+.time-display-section, .date-display-section {
 	text-align: center;
-	font-size: 0.85em;
-	table-layout: fixed;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
-.calendar-table th {
-	color: var(--color-mauve);
-	padding-bottom: 8px;
-	font-weight: normal;
+
+#time-display {
+	font-size: 2.2em;
+	font-family: var(--font-family-mono);
+	color: var(--color-blue);
+	letter-spacing: 1px;
+	line-height: 1;
 }
-.calendar-table td {
-	padding: 5px 0;
+
+.time-colon {
+	color: var(--color-overlay1);
+	margin: 0 2px;
+	position: relative;
+	top: -0.05em;
+}
+
+#day-of-week {
+	font-size: 1.0em;
+	color: var(--color-sky);
+	margin-bottom: 5px;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+#month-day {
+	font-size: 1.1em;
+	color: var(--color-yellow);
+	margin-bottom: 3px;
+}
+
+#year {
+	font-size: 0.9em;
 	color: var(--color-subtext0);
 }
-.calendar-table .today {
-	color: var(--color-green);
-	font-weight: bold;
-	background-color: var(--color-surface0);
-	border-radius: 50%;
-	display: inline-block;
-	width: 2em;
-	line-height: 2em;
-	height: 2em;
+
+.calendar-table {
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 3px;
 	text-align: center;
-}
-.calendar-table .other-month { /* Style for days not in current month */
-	color: var(--color-surface1);
+	font-size: 0.9em;
+	table-layout: fixed;
 }
 
-/* --- System Stats --- */
+.calendar-table th {
+	color: var(--color-mauve);
+	padding-bottom: 10px;
+	font-weight: 600;
+	width: 14.28%;
+}
+
+.calendar-table td {
+	color: var(--color-subtext0);
+	position: relative;
+	padding: 8px 0;
+	border-radius: 4px;
+	transition: background-color 0.2s ease;
+}
+
+.calendar-table td:not(.other-month):not(.today):hover {
+	background-color: var(--color-surface0);
+}
+
+.calendar-table .today span {
+	color: var(--color-crust);
+	font-weight: bold;
+	background-color: var(--color-green);
+	border-radius: 50%;
+	display: inline-block;
+	width: 2.4em;
+	height: 2.4em;
+	line-height: 2.4em;
+	z-index: 1;
+}
+
+.calendar-table .other-month {
+	color: var(--color-surface1);
+	opacity: 0.6;
+	pointer-events: none;
+}
+
+.calendar-table .other-month span {
+	background-color: transparent !important;
+	color: inherit !important;
+	font-weight: normal !important;
+}
+
+.stat-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	margin-bottom: 5px;
+}
+
 .stat-label {
 	font-size: 0.9em;
 	color: var(--color-subtext1);
-	margin-bottom: 8px;
-	display: flex; /* Align icon and text */
+	display: flex;
 	align-items: center;
 	gap: 5px;
 }
+
 .stat-value {
-	font-size: 1.1em;
+	font-size: 1.0em;
 	font-family: var(--font-family-mono);
 	color: var(--color-lavender);
-	margin-top: 8px;
 }
+
 .progress-bar-container {
-	width: 80%;
-	height: 10px;
+	width: 100%;
+	height: 8px;
 	background-color: var(--color-surface0);
-	border-radius: 5px;
+	border-radius: 4px;
 	overflow: hidden;
-	margin: 5px 0;
+	margin-bottom: 10px;
 }
+
 .progress-bar {
 	height: 100%;
 	background-color: var(--color-blue);
-	width: 0%; /* Set by JS */
-	border-radius: 5px;
+	width: 0%;
+	border-radius: 4px;
 	transition: width 0.5s ease-out;
 }
-/* Color coding for progress bars */
+
 .cpu-item .progress-bar { background-color: var(--color-green); }
 .ram-item .progress-bar { background-color: var(--color-yellow); }
 .gpu-item .progress-bar { background-color: var(--color-red); }
 .vram-item .progress-bar { background-color: var(--color-peach); }
-.progress-bar.high-usage { background-color: var(--color-yellow); } /* Generic high usage */
-.progress-bar.critical-usage { background-color: var(--color-red); } /* Generic critical usage */
 
+.progress-bar.high-usage { background-color: var(--color-yellow); }
+.progress-bar.critical-usage { background-color: var(--color-red); }
 
-/* --- Shortcuts --- */
-.shortcut-container {
-	padding: var(--padding-base);
-}
-.shortcut-column {
-	flex: 1;
-	display: flex;
-	flex-direction: column;
-	height: 100%; /* Fill the container height */
-	overflow-y: auto; /* Allow scrolling if list is long */
-	 background-color: var(--color-mantle); /* Slightly different background */
-	 border-radius: var(--border-radius);
-	 padding: 10px;
+.graph-container {
+	width: 100%;
+	flex-grow: 1;
+	position: relative;
+	min-height: 0;
 }
 
-/* Custom scrollbar for shortcut lists */
-.shortcut-column::-webkit-scrollbar {
-	width: 8px;
-}
-.shortcut-column::-webkit-scrollbar-track {
-	background: var(--color-surface0);
-	border-radius: 4px;
-}
-.shortcut-column::-webkit-scrollbar-thumb {
-	background-color: var(--color-overlay0);
-	border-radius: 4px;
-	border: 2px solid var(--color-surface0);
-}
-.shortcut-column::-webkit-scrollbar-thumb:hover {
-	background-color: var(--color-overlay1);
+.graph-container-large {
+	min-height: 80px;
 }
 
+.graph-container canvas {
+	display: block;
+	max-width: 100%;
+	max-height: 100%;
+}
 
-.shortcut-title {
-	color: var(--color-mauve);
-	font-size: 1em;
-	margin-bottom: 10px;
-	text-align: center;
-	border-bottom: 1px solid var(--color-surface0);
-	padding-bottom: 5px;
+.down-item .graph-container,
+.upload-item .graph-container {
+	margin-top: 10px;
+}
+
+.down-item .progress-bar-container,
+.upload-item .progress-bar-container {
+	display: none;
+}
+
+.shortcut-header {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	padding-bottom: 8px;
+	border-bottom: 1px solid var(--color-surface0);
+	flex-shrink: 0;
 }
+
+.shortcut-title {
+	color: var(--color-mauve);
+	font-size: 1.1em;
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+.shortcut-add-buttons {
+	display: flex;
+	gap: 8px;
+}
+
+.add-shortcut-btn.small-add-btn {
+	font-size: 0.9em;
+	padding: 5px 10px;
+	background-color: var(--color-surface1);
+	color: var(--color-subtext1);
+	border: none;
+	border-radius: 4px;
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	cursor: pointer;
+	transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.add-shortcut-btn.small-add-btn .btn-text {
+	display: inline;
+}
+
+.add-shortcut-btn.small-add-btn:hover {
+	background-color: var(--color-surface2);
+	color: var(--color-sky);
+}
+
+.add-shortcut-btn.small-add-btn i {
+	margin: 0;
+}
+
 .shortcut-list {
 	list-style: none;
 	padding: 0;
 	margin: 0;
-	flex-grow: 1; /* Allow list to take available space */
+	flex-grow: 1;
+	overflow-y: auto;
+	background-color: var(--color-base);
+	border-radius: var(--border-radius);
+	padding: 10px;
 }
+
+.shortcut-list::-webkit-scrollbar { width: 8px; }
+.shortcut-list::-webkit-scrollbar-track { background: var(--color-surface0); border-radius: 4px; }
+.shortcut-list::-webkit-scrollbar-thumb { background-color: var(--color-overlay0); border-radius: 4px; border: 2px solid var(--color-surface0); }
+.shortcut-list::-webkit-scrollbar-thumb:hover { background-color: var(--color-overlay1); }
+
+.shortcut-separator {
+	font-size: 0.8em;
+	color: var(--color-overlay1);
+	text-align: center;
+	margin: 10px 0 5px 0;
+	font-weight: bold;
+	text-transform: uppercase;
+	letter-spacing: 1px;
+}
+
+.shortcut-placeholder {
+	font-size: 0.9em;
+	color: var(--color-overlay0);
+	text-align: center;
+	padding: 20px;
+	font-style: italic;
+}
+
 .shortcut-item {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 8px 5px;
-	margin-bottom: 5px;
+	padding: 8px 10px;
+	margin-bottom: 6px;
 	background-color: var(--color-surface0);
 	border-radius: 5px;
 	cursor: pointer;
 	transition: background-color 0.2s ease, color 0.2s ease;
 }
+
 .shortcut-item:hover {
 	background-color: var(--color-surface1);
 	color: var(--color-sky);
 }
+
 .shortcut-name {
 	flex-grow: 1;
 	white-space: nowrap;
@@ -270,16 +397,19 @@ html, body {
 	margin-right: 10px;
 	font-size: 0.9em;
 }
+
 .shortcut-icon {
 	margin-right: 8px;
 	color: var(--color-blue);
-	width: 1em; /* Ensure consistent icon width */
+	width: 1em;
 	text-align: center;
 }
+
 .shortcut-item:hover .shortcut-icon {
 	color: var(--color-sky);
 }
-.remove-shortcut-btn, .add-shortcut-btn {
+
+.remove-shortcut-btn {
 	background: none;
 	border: none;
 	color: var(--color-overlay1);
@@ -287,25 +417,18 @@ html, body {
 	font-size: 0.9em;
 	padding: 2px 4px;
 	border-radius: 3px;
-	line-height: 1; /* Prevent button height issues */
+	line-height: 1;
 }
+
 .remove-shortcut-btn:hover {
 	color: var(--color-red);
 	background-color: var(--color-surface2);
 }
-.add-shortcut-btn {
-	font-size: 1em;
-	margin-left: 5px; /* Space from title */
-}
-.add-shortcut-btn:hover {
-	color: var(--color-green);
-	 background-color: var(--color-surface1);
-}
 
-/* --- Notes --- */
 .note-container {
 	padding: var(--padding-base);
 }
+
 .note-title {
 	font-size: 1em;
 	color: var(--color-teal);
@@ -315,45 +438,31 @@ html, body {
 	padding-bottom: 5px;
 }
 
-/* *Style the textarea to look like the previous display area* */
 #notes-textarea {
 	background-color: var(--color-mantle);
 	border-radius: var(--border-radius);
 	padding: 10px;
-	height: calc(100% - 40px); /* Fill remaining space */
-	width: 100%; /* Fill width */
+	height: calc(100% - 40px);
+	width: 100%;
 	overflow-y: auto;
 	font-size: 0.95em;
 	line-height: 1.5;
 	color: var(--color-subtext1);
-	/* *Remove default textarea appearance* */
 	border: none;
-	outline: none; /* Remove focus outline */
-	resize: none; /* Disable user resizing */
-	font-family: var(--font-family); /* Inherit base font */
+	outline: none;
+	resize: none;
+	font-family: var(--font-family);
 }
 
-/* *Style the placeholder text* */
 #notes-textarea::placeholder {
-color: var(--color-overlay0);
-font-style: italic;
+	color: var(--color-overlay0);
+	font-style: italic;
 }
 
-/* Remove the old .notes-content styles if they were conflicting */
-/*
-.notes-content {
- cursor: pointer;  <-- No longer needed
- white-space: pre-wrap; <-- Textarea handles this
-}
-.notes-content.placeholder {
- <-- This class is no longer used
-}
-*/
-
-/* --- Disk Usage --- */
 .disk-container {
 	padding: var(--padding-base);
 }
+
 .disk-title {
 	font-size: 1em;
 	color: var(--color-sapphire);
@@ -362,19 +471,22 @@ font-style: italic;
 	border-bottom: 1px solid var(--color-surface0);
 	padding-bottom: 5px;
 }
+
 #disk-usage-bars {
 	display: flex;
-	flex-wrap: wrap; /* Allow wrapping if many disks */
+	flex-wrap: wrap;
 	gap: 15px;
-	justify-content: space-around; /* Distribute disks */
-	align-items: center;
-	height: calc(100% - 40px); /* Fill remaining space */
+	justify-content: space-around;
+	align-items: flex-start;
+	height: calc(100% - 40px);
 }
+
 .disk-item {
-	flex-basis: calc(25% - 15px); /* Roughly 4 disks per row, adjust as needed */
-	min-width: 150px; /* Minimum width for readability */
+	flex-basis: calc(25% - 15px);
+	min-width: 150px;
 	text-align: center;
 }
+
 .disk-label {
 	font-size: 0.9em;
 	color: var(--color-subtext1);
@@ -383,16 +495,26 @@ font-style: italic;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }
+
 .disk-percentage {
-	font-size: 1em;
+	font-size: 1.1em;
 	font-family: var(--font-family-mono);
 	color: var(--color-lavender);
+	margin-bottom: 3px;
+}
+
+.disk-percentage-label {
+	font-size: 0.7em;
+	color: var(--color-overlay1);
+	display: block;
 	margin-bottom: 5px;
 }
+
 .disk-details {
 	font-size: 0.8em;
 	color: var(--color-overlay1);
 }
+
 .disk-progress-container {
 	width: 100%;
 	height: 12px;
@@ -401,13 +523,14 @@ font-style: italic;
 	overflow: hidden;
 	margin: 8px 0;
 }
+
 .disk-progress-bar {
 	height: 100%;
 	background-color: var(--color-sapphire);
-	width: 0%; /* Set by JS */
+	width: 0%;
 	border-radius: 6px;
 	transition: width 0.5s ease-out;
 }
-/* Color coding for disk usage (reusing generic classes) */
+
 .disk-progress-bar.high-usage { background-color: var(--color-yellow); }
 .disk-progress-bar.critical-usage { background-color: var(--color-red); }

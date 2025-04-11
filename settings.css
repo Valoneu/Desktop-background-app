@@ -1,52 +1,64 @@
-/* settings.css */
 :root {
-	/* Using colors from main.css scope */
-	--color-base: #24273a;
-	--color-mantle: #1e2030;
-	--color-crust: #181926;
-	--color-text: #cad3f5;
-	--color-subtext1: #b8c0e0;
-	--color-blue: #8aadf4;
-	--color-red: #ed8796;
-	--color-green: #a6da95;
-	--color-yellow: #eed49f; /* Added yellow for description */
-	--color-surface0: #363a4f;
-	--color-surface1: #494d64;
-	--border-radius: 8px;
-	--padding-base: 15px;
-	--font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	--color-base: #24273a; --color-mantle: #1e2030; --color-crust: #181926; --color-text: #cad3f5; --color-subtext1: #b8c0e0; --color-blue: #8aadf4; --color-red: #ed8796; --color-green: #a6da95; --color-yellow: #eed49f; --color-surface0: #363a4f; --color-surface1: #494d64; --color-overlay0: #6e738d; --color-overlay1: #8087a2; --color-maroon: #ee99a0; --color-sapphire: #7dc4e4; --border-radius: 8px; --padding-base: 15px; --padding-large: 20px; --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+*, *::before, *::after {
+	box-sizing: border-box;
+}
+
+html {
+	height: 100%;
 }
 
 body {
 	font-family: var(--font-family);
 	background-color: var(--color-mantle);
 	color: var(--color-text);
-	padding: var(--padding-base);
 	margin: 0;
 	font-size: 14px;
-	height: 100vh;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
-	box-sizing: border-box; /* Include padding in height */
+	overflow: hidden;
 }
+
+.content-wrapper {
+	flex-grow: 1;
+	overflow-y: auto;
+	padding: var(--padding-large);
+	padding-bottom: 0;
+}
+
+.content-wrapper::-webkit-scrollbar { width: 10px; }
+.content-wrapper::-webkit-scrollbar-track { background: var(--color-crust); border-radius: 5px; }
+.content-wrapper::-webkit-scrollbar-thumb { background-color: var(--color-overlay0); border-radius: 5px; border: 2px solid var(--color-crust); }
+.content-wrapper::-webkit-scrollbar-thumb:hover { background-color: var(--color-overlay1); }
 
 h1, h2 {
 	color: var(--color-blue);
 	border-bottom: 1px solid var(--color-surface0);
-	padding-bottom: 5px;
-	margin: 0 0 10px 0; /* Adjusted margin */
+	padding-bottom: 8px;
+	margin: 0 0 var(--padding-base) 0;
 }
-h1 { font-size: 1.5em; margin-bottom: 15px;}
-h2 { font-size: 1.2em; }
+
+h1 {
+	font-size: 1.6em;
+	margin-bottom: var(--padding-large);
+}
+
+h2 {
+	font-size: 1.2em;
+}
 
 .settings-section {
-	margin-bottom: var(--padding-base);
+	margin-bottom: var(--padding-large);
 	background-color: var(--color-base);
 	padding: var(--padding-base);
 	border-radius: var(--border-radius);
-	/* Let sections take space but don't force growth if content is small */
-	/* flex-grow: 1; */
-	overflow-y: auto; /* Scroll if content overflows */
+}
+
+.content-wrapper .settings-section:last-child {
+	margin-bottom: var(--padding-base);
 }
 
 .description {
@@ -54,31 +66,38 @@ h2 { font-size: 1.2em; }
 	color: var(--color-yellow);
 	margin-bottom: 10px;
 	font-style: italic;
+	line-height: 1.4;
 }
 
 #disk-list {
 	list-style: none;
 	padding: 0;
-	margin: 10px 0;
-	max-height: 150px; /* Limit height and allow scroll */
-	min-height: 50px; /* Ensure some space even when empty */
+	margin: 15px 0;
+	max-height: 200px;
+	min-height: 50px;
 	overflow-y: auto;
 	border: 1px solid var(--color-surface0);
 	border-radius: 4px;
-	padding: 5px;
-	background-color: var(--color-crust); /* Slightly darker background for list */
+	padding: 8px;
+	background-color: var(--color-crust);
 }
+
+#disk-list::-webkit-scrollbar { width: 8px; }
+#disk-list::-webkit-scrollbar-track { background: var(--color-surface0); border-radius: 4px; }
+#disk-list::-webkit-scrollbar-thumb { background-color: var(--color-overlay0); border-radius: 4px; border: 2px solid var(--color-surface0); }
+#disk-list::-webkit-scrollbar-thumb:hover { background-color: var(--color-overlay1); }
 
 #disk-list li {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	padding: 5px 8px;
-	margin-bottom: 4px;
+	padding: 8px 10px;
+	margin-bottom: 5px;
 	background-color: var(--color-surface0);
 	border-radius: 3px;
-	color: var(--color-subtext1); /* Color for placeholder text */
+	color: var(--color-subtext1);
 }
+
 #disk-list li:last-child {
 	margin-bottom: 0;
 }
@@ -86,86 +105,113 @@ h2 { font-size: 1.2em; }
 #disk-list li span {
 	flex-grow: 1;
 	margin-right: 10px;
-	color: var(--color-text); /* Normal text color for actual items */
-	word-break: break-all; /* Prevent long paths from overflowing */
+	color: var(--color-text);
+	word-break: break-all;
+}
+
+#disk-list li.info-placeholder,
+#disk-list li.error-placeholder {
+	justify-content: center;
+	font-style: italic;
+	color: var(--color-overlay1);
+	background-color: transparent;
+}
+
+#disk-list li.error-placeholder {
+	color: var(--color-red);
 }
 
 .remove-disk-btn {
 	background-color: var(--color-red);
 	color: var(--color-crust);
 	border: none;
-	padding: 3px 6px;
+	padding: 4px 8px;
 	border-radius: 3px;
 	cursor: pointer;
 	font-size: 0.9em;
-	flex-shrink: 0; /* Prevent button from shrinking */
+	flex-shrink: 0;
+	transition: background-color 0.2s ease;
 }
+
 .remove-disk-btn:hover {
-	opacity: 0.8;
+	background-color: var(--color-maroon);
 }
 
 .disk-controls {
 	display: flex;
 	gap: 10px;
-	margin-top: 10px;
-	align-items: center; /* Align items vertically */
+	margin-top: 15px;
+	align-items: center;
 }
 
 .disk-controls input[type="text"] {
 	flex-grow: 1;
-	padding: 8px;
+	padding: 9px 12px;
 	background-color: var(--color-surface0);
 	border: 1px solid var(--color-surface1);
 	border-radius: 4px;
 	color: var(--color-text);
 	outline: none;
-	font-size: 1em; /* Match button font size */
-}
-.disk-controls input[type="text"]:focus {
-	 border-color: var(--color-blue);
+	font-size: 1em;
+	transition: border-color 0.2s ease;
 }
 
+.disk-controls input[type="text"]:focus {
+	border-color: var(--color-blue);
+}
 
 button {
-	padding: 8px 15px;
+	padding: 9px 18px;
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
 	font-size: 1em;
-	white-space: nowrap; /* Prevent text wrapping */
+	white-space: nowrap;
+	transition: background-color 0.2s ease, opacity 0.2s ease;
 }
 
-#add-disk-button, #add-disk-browse-button {
+button:hover {
+	opacity: 0.9;
+}
+
+#add-disk-button,
+#add-disk-browse-button {
 	background-color: var(--color-green);
 	color: var(--color-crust);
 }
-#add-disk-button:hover, #add-disk-browse-button:hover {
-	 opacity: 0.9;
-}
-
 
 hr {
 	border: none;
 	border-top: 1px solid var(--color-surface0);
-	margin: var(--padding-base) 0;
+	margin: var(--padding-large) 0;
 }
 
 .button-bar {
 	display: flex;
 	justify-content: flex-end;
-	gap: 10px;
-	margin-top: auto; /* Push button bar to the bottom */
-	padding-top: var(--padding-base);
+	gap: 12px;
+	padding: var(--padding-base) var(--padding-large);
 	border-top: 1px solid var(--color-surface0);
+	background-color: var(--color-mantle);
+	flex-shrink: 0;
 }
 
 #save-settings-button {
 	background-color: var(--color-blue);
 	color: var(--color-crust);
 }
+
 #cancel-settings-button {
 	background-color: var(--color-surface1);
 	color: var(--color-text);
 }
-#save-settings-button:hover { opacity: 0.9; }
-#cancel-settings-button:hover { background-color: var(--color-surface0); }
+
+#save-settings-button:hover {
+	background-color: var(--color-sapphire);
+	opacity: 1;
+}
+
+#cancel-settings-button:hover {
+	background-color: var(--color-surface0);
+	opacity: 1;
+}

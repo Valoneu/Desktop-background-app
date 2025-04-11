@@ -1,12 +1,15 @@
 {
   "shortcuts": [],
   "trackedDisks": [
-    "C:"
+    "C:",
+    "D:",
+    "F:",
+    "H:"
   ],
   "windowBounds": {
-    "x": 320,
-    "y": 176,
-    "width": 1280,
-    "height": 800
+    "x": 0,
+    "y": 0,
+    "width": 1920,
+    "height": 1080
   }
 }

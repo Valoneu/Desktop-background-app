@@ -25,6 +25,7 @@
     "electron-reloader": "^1.2.3"
   },
   "dependencies": {
+    "chart.js": "^4.4.8",
     "electron-squirrel-startup": "^1.0.1",
     "systeminformation": "^5.22.11"
   }

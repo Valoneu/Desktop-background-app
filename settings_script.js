@@ -1,9 +1,6 @@
-// Renderer process (settings_script.js) - Settings Window Logic
-
 let currentSettings = {};
-let modifiedDisks = []; // Work with a copy of the disks array
+let modifiedDisks = [];
 
-// DOM Elements
 const diskListElement = document.getElementById('disk-list');
 const newDiskInput = document.getElementById('new-disk-path');
 const addDiskButton = document.getElementById('add-disk-button');
@@ -11,25 +8,22 @@ const addDiskBrowseButton = document.getElementById('add-disk-browse-button');
 const saveButton = document.getElementById('save-settings-button');
 const cancelButton = document.getElementById('cancel-settings-button');
 
-// Initialization
 document.addEventListener('DOMContentLoaded', async () => {
     try {
         currentSettings = await window.settingsAPI.getSettings();
-        // *Ensure trackedDisks is an array, default to empty if not found/invalid*
         modifiedDisks = Array.isArray(currentSettings.trackedDisks) ? [...currentSettings.trackedDisks] : [];
         renderDiskList();
     } catch (error) {
         console.error("Error loading settings:", error);
-        diskListElement.innerHTML = '<li>Error loading settings.</li>';
+        diskListElement.innerHTML = '<li class="error-placeholder">Error loading settings.</li>';
     }
     setupEventListeners();
 });
 
-// Render the list of disks
 function renderDiskList() {
-    diskListElement.innerHTML = ''; // Clear current list
+    diskListElement.innerHTML = '';
     if (modifiedDisks.length === 0) {
-         diskListElement.innerHTML = '<li>No disks being tracked.</li>';
+         diskListElement.innerHTML = '<li class="info-placeholder">No disks being tracked. Add one below.</li>';
     } else {
         modifiedDisks.forEach((diskPath, index) => {
             const listItem = document.createElement('li');
@@ -41,63 +35,58 @@ function renderDiskList() {
         });
     }
 
-    // Add event listeners AFTER creating the buttons
     diskListElement.querySelectorAll('.remove-disk-btn').forEach(button => {
+        button.removeEventListener('click', handleRemoveDisk); // Remove old listener first
         button.addEventListener('click', handleRemoveDisk);
     });
 }
 
-// Handle removing a disk
 function handleRemoveDisk(event) {
     const indexToRemove = parseInt(event.target.dataset.index, 10);
     if (!isNaN(indexToRemove) && indexToRemove >= 0 && indexToRemove < modifiedDisks.length) {
         modifiedDisks.splice(indexToRemove, 1);
-        renderDiskList(); // Re-render the list to reflect removal
+        renderDiskList();
     }
 }
 
-// Handle adding a disk (from manual input or browse)
 function handleAddDisk(diskPath) {
-     const newPath = diskPath.trim();
-     // Basic validation: Check if empty or already exists
-     if (!newPath) {
-         alert("Please enter or select a disk path.");
-         return;
-     }
-      if (modifiedDisks.includes(newPath)) {
-         alert(`Disk "${newPath}" is already in the list.`);
-         return;
-     }
-     // Add the new path and re-render
-     modifiedDisks.push(newPath);
-     renderDiskList();
-     newDiskInput.value = ''; // Clear input after adding manually
-     newDiskInput.focus(); // Set focus back to input
+    const newPath = diskPath.trim();
+    if (!newPath) {
+        alert("Please enter or select a disk path.");
+        return;
+    }
+    if (modifiedDisks.some(p => p.toUpperCase() === newPath.toUpperCase())) { // Case-insensitive check
+        alert(`"${newPath}" is already in the list.`);
+        return;
+    }
+    modifiedDisks.push(newPath);
+    renderDiskList();
+    newDiskInput.value = '';
+    newDiskInput.focus();
 }
 
-// Setup all event listeners
 function setupEventListeners() {
-    // Add disk manually button
     addDiskButton.addEventListener('click', () => {
         handleAddDisk(newDiskInput.value);
     });
 
-    // Browse for disk button
     addDiskBrowseButton.addEventListener('click', async () => {
         try {
-            // Use the 'selectPath' exposed via preload, asking for a directory
             const selectedPath = await window.settingsAPI.selectPath('folder');
             if (selectedPath) {
-               // Try to simplify the path for common cases
-               let pathToAdd = selectedPath;
-
-               // Windows: Extract drive letter (e.g., C:)
-               if (/^[a-zA-Z]:\\/.test(selectedPath)) { // Matches C:\, D:\folder etc.
-                   pathToAdd = selectedPath.substring(0, 2);
-               }
-               // Linux/macOS: Use the selected path directly (might be /, /home, /Volumes/etc)
-
-               handleAddDisk(pathToAdd);
+                let pathToAdd = selectedPath;
+                // Attempt to get root drive on Windows (e.g., C:)
+                if (/^[a-zA-Z]:\\/.test(selectedPath)) {
+                     // Use regex to extract drive letter + colon
+                     const match = selectedPath.match(/^([a-zA-Z]:)/);
+                     if (match && match[1]) {
+                         pathToAdd = match[1];
+                     }
+                }
+                // On Unix-like systems, usually you want the selected mount point itself,
+                // or just '/' if they select something deep inside the root filesystem.
+                // For simplicity, we'll add the selected path directly if it's not a Windows drive.
+                handleAddDisk(pathToAdd);
             }
         } catch (error) {
             console.error("Error selecting folder:", error);
@@ -105,33 +94,25 @@ function setupEventListeners() {
         }
     });
 
-    // Allow adding disk by pressing Enter in the input field
     newDiskInput.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
-            event.preventDefault(); // Prevent potential form submission if wrapped in form
+            event.preventDefault();
             handleAddDisk(newDiskInput.value);
         }
     });
 
-    // Save button
     saveButton.addEventListener('click', async () => {
         try {
-            // Create the updated settings object
-            const updatedSettings = {
-                ...currentSettings, // Keep other existing settings (like shortcuts)
-                trackedDisks: modifiedDisks // Update the disks array
-            };
+            const updatedSettings = { ...currentSettings, trackedDisks: modifiedDisks };
             await window.settingsAPI.saveSettings(updatedSettings);
-            // Main process handles notifying the main window
-            window.settingsAPI.closeWindow(); // Close settings window after saving
+            window.settingsAPI.closeWindow();
         } catch (error) {
             console.error("Error saving settings:", error);
             alert("Failed to save settings. Check console for details.");
         }
     });
 
-    // Cancel button
     cancelButton.addEventListener('click', () => {
-        window.settingsAPI.closeWindow(); // Close without saving
+        window.settingsAPI.closeWindow();
     });
 }

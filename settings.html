@@ -5,39 +5,26 @@
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Settings</title>
-    <link rel="stylesheet" href="settings.css"> <!-- *Link to settings CSS* -->
+    <link rel="stylesheet" href="settings.css">
 </head>
 <body>
-    <h1>Settings</h1>
-
-    <div class="settings-section">
-        <h2>Tracked Disks</h2>
-        <p class="description">Enter the drive letter (e.g., C:) on Windows or the mount point (e.g., / or /home) on Linux/macOS.</p>
-        <ul id="disk-list">
-            <!-- Disk items will be added here by JS -->
-            <li>Loading...</li>
-        </ul>
-        <div class="disk-controls">
-            <input type="text" id="new-disk-path" placeholder="e.g., C: or /" />
-            <button id="add-disk-button" title="Add the path entered manually">Add Path</button>
-            <button id="add-disk-browse-button" title="Select a folder to add its root drive/mount point">Browse...</button>
+    <div class="content-wrapper">
+        <h1>Settings</h1>
+        <div class="settings-section">
+            <h2>Tracked Disks</h2>
+            <p class="description">Enter the drive letter (e.g., C:) on Windows or the mount point (e.g., / or /home) on Linux/macOS.</p>
+            <ul id="disk-list"></ul>
+            <div class="disk-controls">
+                <input type="text" id="new-disk-path" placeholder="e.g., C: or /" />
+                <button id="add-disk-button" title="Add the path entered manually">Add Path</button>
+                <button id="add-disk-browse-button" title="Select a folder to add its root drive/mount point">Browse...</button>
+            </div>
         </div>
     </div>
-
-    <hr>
-
-    <!-- Add other settings sections here later (e.g., shortcut management?) -->
-     <div class="settings-section">
-        <h2>Other Settings</h2>
-        <p>(Placeholder for future settings)</p>
-    </div>
-
-
     <div class="button-bar">
         <button id="save-settings-button">Save & Close</button>
         <button id="cancel-settings-button">Cancel</button>
     </div>
-
     <script src="settings_script.js"></script>
 </body>
 </html>
